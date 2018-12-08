@@ -59,6 +59,58 @@ def simpson3_repetida (a, b, particoes):
     resultado = (3/8)*h * sum(y)
     return resultado
 
+def erro_trapezio(a,b,n):
+    h=(b-a)/n
+    temp=h**3
+    e=(temp)/12
+    g=[]
+    aux=a
+    i=1
+    temp=0
+    while(i<=n):
+        temp=abs((sp.diff(f(x),x,2).subs(x,aux)))
+        g.append(temp)
+        aux=aux+h
+        i=i+1
+    #print(g)
+    #print(max(g))
+    temp=max(g)
+    #print (e)
+    e=e*temp
+    return abs(e)
+
+def erro_simpson13(a,b,n):
+    h=(b-a)/n
+    e=((h**4)/180)*(b-a)
+    g=[]
+    aux=a
+    i=1
+    temp=0
+    while(i<=n):
+        temp=abs((sp.diff(f(x),x,4).subs(x,aux)))
+        g.append(temp)
+        aux=aux+h
+        i=i+1
+    temp=max(g)
+    e=e*temp
+    return abs(e)
+
+def erro_simpson38(a,b,n):
+    h=(b-a)/n
+    e=((h**4)/80)*(a-b)
+    g=[]
+    aux=a
+    i=1
+    temp=0
+    while(i<=n):
+        temp=abs((sp.diff(f(x),x,4).subs(x,aux)))
+        g.append(temp)
+        aux=aux+h
+        i=i+1
+    temp=max(g)
+    e=e*temp
+    return abs(e)
+
 #FIXME: EDO de f(x, y)
 def euler(x0, h, interacoes):
     y0 = f_2(x0)
@@ -93,13 +145,13 @@ print ("Regra de 3/8 de Simpson Repetida:", resultado3)
 print ("Implementacao do Sympy:", integral)
 
 print ("Erro das regras:")
-erro1 = 0
+erro1 = erro_trapezio(0,1,4)
 print ("Regra do Trapezio:", erro1)
 
-erro2 = 0
+erro2 = erro_simpson13(0,1,4)
 print ("Regra de 1/3 de Simpson Repetida:", erro2)
 
-erro3 = 0
+erro3 = erro_simpson38(0,1,4)
 print ("Regra de 3/8 de Simpson Repetida:",erro3)
 
 #Questao 2, nro 15
