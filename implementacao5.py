@@ -10,6 +10,7 @@ def f(x):
 def f_2(x):
     return sp.sin(0.5*x**1/2)/x
 
+#Regra do Trapezio Repetida
 def trapezio_repetida(a, b, particoes):
     h = (b-a)/particoes
     y = [f(a)]
@@ -24,6 +25,7 @@ def trapezio_repetida(a, b, particoes):
     resultado = h/2 * sum(y)
     return resultado
 
+#Regra de 1/3 de Simpson Repetida
 def simpson1_repetida (a, b, particoes):
     h = (b-a)/particoes
     y = [f(a)]
@@ -40,6 +42,7 @@ def simpson1_repetida (a, b, particoes):
     resultado = h/3 * sum(y)
     return resultado
 
+#Regra 3/8 de Simpson Repetida
 def simpson3_repetida (a, b, particoes):
     h = (b-a)/particoes
     y = [f(a)]
@@ -81,17 +84,27 @@ print ("Valores das integrais usando:")
 resultado1 = trapezio_repetida(0, 1, 4)
 print ("Regra do Trapezio:", resultado1)
 
-#1/3 de Simpson Repetida
 resultado2 = simpson1_repetida(0, 1, 4)
 print ("Regra de 1/3 de Simpson Repetida:", resultado2)
 
-#3/8 de Simpson Repetida
 resultado3 = simpson3_repetida(0, 1, 4)
 print ("Regra de 3/8 de Simpson Repetida:", resultado3)
 
 print ("Implementacao do Sympy:", integral)
+
+print ("Erro das regras:")
+erro1 = 0
+print ("Regra do Trapezio:", erro1)
+
+erro2 = 0
+print ("Regra de 1/3 de Simpson Repetida:", erro2)
+
+erro3 = 0
+print ("Regra de 3/8 de Simpson Repetida:",erro3)
+
 #Questao 2, nro 15
 #Euler
+
 
 #Runge-Kutta 2a ordem
 
