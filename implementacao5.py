@@ -1,8 +1,8 @@
-#TODO: Questao 1, 2 e 3
-#TODO: Erros 1
+#TODO: Questao 2 e 3
 
 import sympy as sp
 import numpy as np
+import matplotlib.pyplot as plt
 
 def f(x):
     return 1/(x**2+1)
@@ -110,27 +110,36 @@ def erro_simpson38(a,b,n):
     temp=max(g)
     e=e*temp
     return abs(e)
-
-#FIXME: EDO de f(x, y)
+#Euler
 def euler(x0, h, interacoes):
     y0 = f_2(x0)
     intervaloX = [x0]
     intervaloY = [y0]
+    intervaloYoriginal = [y0]
     
     for i in range (interacoes):
-        x = x0 + h
-        intervaloX.append(x)
-        x0 = x
-        y = y0 + h*f_2(y0)
+        x1 = x0 + h
+        intervaloX.append(x1)
+        temp = sp.diff(f_2(x), x).subs(x,y0)
+        y = y0 + h*temp
         intervaloY.append(y)
+        intervaloYoriginal.append(f_2(x1))
         y0 = y
+        x0 = x1
+    
+    plt.plot(intervaloX, intervaloYoriginal)
+    plt.plot(intervaloX, intervaloY)
+    plt.title("Questao 2")
+    plt.show()
 
 
 #Questao 1, nro 15
 x = sp.Symbol('x')
+
 integral =  sp.integrate(f(x),(x,0,1))
 #derivada_dupla = sp.diff(f(x), x, 2)
 
+#Ao aumentar as particoes do intervalo, o erro tende a diminuir
 print ("Valores das integrais usando:")
 
 resultado1 = trapezio_repetida(0, 1, 4)
@@ -155,8 +164,8 @@ erro3 = erro_simpson38(0,1,4)
 print ("Regra de 3/8 de Simpson Repetida:",erro3)
 
 #Questao 2, nro 15
-#Euler
 
+euler(2, 0.4, 100)
 
 #Runge-Kutta 2a ordem
 
