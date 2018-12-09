@@ -1,5 +1,3 @@
-#TODO: Questao 2 e 3
-
 from __future__ import division
 import sympy as sp
 import numpy as np
@@ -70,7 +68,7 @@ def simpson1_repetida (a, b, particoes):
         y.append(aux)
 
     y.append(f(b))
-    resultado = h/3 * sum(y)
+    resultado = h/3 * (sum(y))
     return resultado
 
 #Regra 3/8 de Simpson Repetida
@@ -151,7 +149,7 @@ def erro_simpson38(a,b,n):
     e=e*temp
     return abs(e)
 #Euler
-#FIXME: Ei, de um jeito em mim!
+
 def euler(x0, h, iteracoes):
     y0 = f_2(x0)
     intervaloX = [x0]
@@ -161,8 +159,7 @@ def euler(x0, h, iteracoes):
     for i in range (iteracoes):
         x1 = x0 + h
         intervaloX.append(x1)
-        temp = sp.diff(f_2(x), x).subs(x,y0)
-        y = y0 + h*temp
+        y = y0 + h*f_2(x0)
         intervaloY.append(y)
         intervaloYoriginal.append(f_2(x1))
         y0 = y
@@ -170,35 +167,73 @@ def euler(x0, h, iteracoes):
     
     plt.plot(intervaloX, intervaloYoriginal)
     plt.plot(intervaloX, intervaloY)
-    plt.title("Questao 2 - Euler")
+    plt.title("Euler")
     plt.show()
 
-#Runge Kutta questao 3, exercicio 2
-def kutta_2ordem_3(h, x0, N):
-    y0 = f_3_2(x0)
+#Runge Kutta de Segunda Ordem
+def kutta_2ordem(h, x0, N, questao):
+
+    if questao == 2:
+        y0 = f_2(x0)
+    else:
+        y0 = f_3_2(x0)
+
     xn = x0
     intervaloX = [x0]
     intervaloY = [y0]
+    intervaloYoriginal = [y0]
     yn = y0
 
-    for i in range (N):
+    for i in range (N-1):
         xn1 = xn + h
         intervaloX.append(xn1)
-        k1 = f_3_2(xn)
-        k2 = f_3_2(xn1)
+        if questao == 2:
+            k1 = f_2(xn)
+            k2 = f_2(xn1)
+            intervaloYoriginal.append(f_2(xn1))
+
+        else:    
+            k1 = f_3_2(xn)
+            k2 = f_3_2(xn1)
+            intervaloYoriginal.append(f_3_2(xn1))
         yn1 = yn + (h/2)*(k1+k2)
         intervaloY.append(yn1)
         xn = xn1
         yn = yn1
-    resultado = sp.diff(f_3_2(x), x).subs(x,yn1)
-    print resultado
 
-    print intervaloX
-    print intervaloY
+    plt.plot(intervaloX, intervaloYoriginal)
     plt.plot(intervaloX, intervaloY)
-    plt.title("Questao 3 - Runge Kutta")
+    plt.title("Runge Kutta -  Segunda Ordem")
     plt.show()
+    return yn1
 
+#Rugen Kutta de Quarta Ordem
+def kutta_4ordem(x0, h, N):
+    y0 = f_2(x0)
+    xn = x0
+    intervaloX = [x0]
+    intervaloY = [y0]
+    intervaloYoriginal = [y0]
+    yn = y0
+
+    for i in range (N-1):
+        xn1 = xn + h
+        intervaloX.append(xn1)
+        k1 = f_2(xn)
+        k2 = f_2(xn+h/2)
+        k3 = f_2(xn+1/2)
+        k4 = f_2(xn+h)
+        yn1 = yn + (h/6) * (k1 + 2*k2 + 2*k3 *k4)
+        intervaloY.append(yn1)
+        intervaloYoriginal.append(f_2(xn1))
+        xn = xn1
+        yn = yn1
+
+    plt.plot(intervaloX, intervaloYoriginal)
+    plt.plot(intervaloX, intervaloY)
+    plt.title("Runge Kutta -  Quarta Ordem")
+    plt.show()
+    
 
 #Funcoes Auxiliares para questao 3
 def delta (vetorX, vetorY, vetorResultado):
@@ -273,8 +308,10 @@ print ("Regra de 3/8 de Simpson Repetida: %f" %erro3)
 euler(2, 0.4, 100)
 
 #Runge-Kutta 2a ordem
+questao_2 = kutta_2ordem(0.4, 2, 100, 2)
 
 #Runge-Kutta 4a ordem
+kutta_4ordem(2,0.4, 100)
 
 #Questao 3, nro 5-1
 #5 a)
@@ -286,4 +323,5 @@ ew=erro_trapezio(5,15,10,2)
 print ("Erro de truncamento do intervalo de [5, 15]: %f" %ew)
 
 #Questao 3, exercicio 5-2
-kutta_2ordem_3(15, 0, 15)
+questao_3 = kutta_2ordem(15, 0, 4, 3)
+print ("Resultado do ultimo ponto: %f" %questao_3)
