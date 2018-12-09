@@ -4,12 +4,16 @@ from __future__ import division
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
-from mpmath import *
+
+#Funcoes Definidas
 def f(x):
     return 1/(x**2+1)
 
 def f_2(x):
     return  sp.sin(0.5*x**1/2)/x
+
+def f_3_2(z):
+    return (0.000002778*z**4/12)-(0.00016668*z**3/6)+(0.0025002*z**2/2)
 
 def trabalho(v):
     vet5x=[0.0,2.5,5.0,15.0,20.0,25.0,30.0]
@@ -169,6 +173,34 @@ def euler(x0, h, iteracoes):
     plt.title("Questao 2 - Euler")
     plt.show()
 
+#Runge Kutta questao 3, exercicio 2
+def kutta_2ordem_3(h, x0, N):
+    y0 = f_3_2(x0)
+    xn = x0
+    intervaloX = [x0]
+    intervaloY = [y0]
+    yn = y0
+
+    for i in range (N):
+        xn1 = xn + h
+        intervaloX.append(xn1)
+        k1 = f_3_2(xn)
+        k2 = f_3_2(xn1)
+        yn1 = yn + (h/2)*(k1+k2)
+        intervaloY.append(yn1)
+        xn = xn1
+        yn = yn1
+    resultado = sp.diff(f_3_2(x), x).subs(x,yn1)
+    print resultado
+
+    print intervaloX
+    print intervaloY
+    plt.plot(intervaloX, intervaloY)
+    plt.title("Questao 3 - Runge Kutta")
+    plt.show()
+
+
+#Funcoes Auxiliares para questao 3
 def delta (vetorX, vetorY, vetorResultado):
 	tamVetor = len(vetorY)
 	dif = len(vetorX) - tamVetor + 1
@@ -215,7 +247,7 @@ integral =  sp.integrate(f(x),(x,0,1))
 
 print ("Valores das integrais usando:")
 
-resultado1 = trapezio_repetida(0, 1, 4,1)
+resultado1 = trapezio_repetida(0, 1, 4 , 1)
 print ("Regra do Trapezio: %f" %resultado1)
 
 resultado2 = simpson1_repetida(0, 1, 4)
@@ -244,24 +276,14 @@ euler(2, 0.4, 100)
 
 #Runge-Kutta 4a ordem
 
-#Questao 3, nro 5
-'''
-vet5x=[0.0,2.5,5.0,15.0,20.0,25.0,30.0]
-vet5fx=[0.0,7.0,9.0,14.0,10.5,12.0,5.0]
-vet5Ox=[0.5,0.9,1.4,0.9,1.3,1.48,1.5]
-vrfx=[]#vetor resultado para a fx
-delta(vet5x,vet5fx,vrfx)#delta para a fx
-vrOx=[]#vetor resultado para a O(x)
-delta(vet5x,vet5Ox,vrOx)#delta para a Ox
-funfx=polinomio_teste(vrfx,vet5x,vet5fx,2,x)
-funOx=polinomio_teste(vrOx,vet5x,vet5Ox,2,x)
-print (funfx)
-print (funOx)
-'''
+#Questao 3, nro 5-1
 #5 a)
 w=trapezio_repetida(0,30,10,2)
-print (w)
+print ("Aproximacao do trabalho de 0ft ate 30ft: %f" %w)
 
 #5 b)
 ew=erro_trapezio(5,15,10,2)
-print (ew)
+print ("Erro de truncamento do intervalo de [5, 15]: %f" %ew)
+
+#Questao 3, exercicio 5-2
+kutta_2ordem_3(15, 0, 15)
