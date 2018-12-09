@@ -1,5 +1,6 @@
 #TODO: Questao 2 e 3
 
+from __future__ import division
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
@@ -111,13 +112,14 @@ def erro_simpson38(a,b,n):
     e=e*temp
     return abs(e)
 #Euler
-def euler(x0, h, interacoes):
+#FIXME: Ei, de um jeito em mim!
+def euler(x0, h, iteracoes):
     y0 = f_2(x0)
     intervaloX = [x0]
     intervaloY = [y0]
     intervaloYoriginal = [y0]
     
-    for i in range (interacoes):
+    for i in range (iteracoes):
         x1 = x0 + h
         intervaloX.append(x1)
         temp = sp.diff(f_2(x), x).subs(x,y0)
@@ -129,9 +131,8 @@ def euler(x0, h, interacoes):
     
     plt.plot(intervaloX, intervaloYoriginal)
     plt.plot(intervaloX, intervaloY)
-    plt.title("Questao 2")
+    plt.title("Questao 2 - Euler")
     plt.show()
-
 
 #Questao 1, nro 15
 x = sp.Symbol('x')
@@ -143,25 +144,25 @@ integral =  sp.integrate(f(x),(x,0,1))
 print ("Valores das integrais usando:")
 
 resultado1 = trapezio_repetida(0, 1, 4)
-print ("Regra do Trapezio:", resultado1)
+print ("Regra do Trapezio: %f" %resultado1)
 
 resultado2 = simpson1_repetida(0, 1, 4)
-print ("Regra de 1/3 de Simpson Repetida:", resultado2)
+print ("Regra de 1/3 de Simpson Repetida: %f" %resultado2)
 
 resultado3 = simpson3_repetida(0, 1, 4)
-print ("Regra de 3/8 de Simpson Repetida:", resultado3)
+print ("Regra de 3/8 de Simpson Repetida: %f" %resultado3)
 
-print ("Implementacao do Sympy:", integral)
+print ("Implementacao do Sympy: %f" %integral)
 
 print ("Erro das regras:")
 erro1 = erro_trapezio(0,1,4)
-print ("Regra do Trapezio:", erro1)
+print ("Regra do Trapezio: %f" %erro1)
 
 erro2 = erro_simpson13(0,1,4)
-print ("Regra de 1/3 de Simpson Repetida:", erro2)
+print ("Regra de 1/3 de Simpson Repetida: %f" %erro2)
 
 erro3 = erro_simpson38(0,1,4)
-print ("Regra de 3/8 de Simpson Repetida:",erro3)
+print ("Regra de 3/8 de Simpson Repetida: %f" %erro3)
 
 #Questao 2, nro 15
 
